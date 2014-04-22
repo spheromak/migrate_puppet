@@ -2,8 +2,7 @@ source  'https://rubygems.org'
 
 # lock berks2 and < solve 1.0
 gem 'berkshelf', '~> 2.0.14'
-gem 'solve', '~> 0.8.2'
-gem 'faraday', '~> 0.8.9'
+gem 'solve', '~>0.8.2'
 
 group 'develop' do
   gem 'unf'

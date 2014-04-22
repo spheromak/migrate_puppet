@@ -12,4 +12,6 @@ AllCops:
     - vendor/**
 
 Encoding:
-  Enabled: false 
+  Exclude:
+    - metadata.rb
+    - Gemfile

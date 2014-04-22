@@ -298,7 +298,6 @@ PLATFORMS
 DEPENDENCIES
   berkshelf (~> 2.0.14)
   chefspec (>= 3.2.0)
-  faraday (~> 0.8.9)
   foodcritic!
   git
   guard
