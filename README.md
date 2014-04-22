@@ -1,4 +1,4 @@
-## Puppet cookbook to handle removing puppet and it's crons
+## Chef cookbook to handle removing puppet and it's crons
 
 I wrote this a looong time ago. There is a re-implementation of the cron provider so that it understands puppet crons. 
 This provider needs a rewrite to chef11.
