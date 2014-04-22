@@ -10,20 +10,20 @@ task default: 'test:quick'
 namespace :test do
 
   RSpec::Core::RakeTask.new(:spec) do |t|
-    t.pattern = Dir.glob('test/spec/**/*_spec.rb')
-    t.rspec_opts = '--color -f d'
+    t.rspec_opts = '--color -f d --fail-fast'
   end
 
   begin
-    require 'kitchen/rake_tasks'
-    Kitchen::RakeTasks.new
+    if File.exists? '.kitchen.yml'
+      require 'kitchen/rake_tasks'
+      Kitchen::RakeTasks.new
+    end
   rescue LoadError
     puts '>>>>> Kitchen gem not loaded, omitting tasks' unless ENV['CI']
   end
 
   begin
     require 'foodcritic'
-
     task default: [:foodcritic]
     FoodCritic::Rake::LintTask.new do |t|
       t.options = { fail_tags: %w/correctness services libraries deprecated/ }
@@ -36,6 +36,7 @@ namespace :test do
     require 'rubocop/rake_task'
     Rubocop::RakeTask.new do |task|
       task.fail_on_error = true
+      task.options = %w{-D -a}
     end
   rescue LoadError
     warn 'Rubocop gem not installed, now the code will look like crap!'
@@ -70,7 +71,7 @@ task :skeleton do
     rname = 'skeleton'
     unless remotes.include?(rname)
       puts 'Adding skeleton remote to your repository'
-      git_uri = 'https://github.com/cloudware-cookbooks/skeleton.git'
+      git_uri = 'git@github.com:milt-cookbooks/skeleton.git'
       g.add_remote(rname, git_uri)
     end
 
@@ -82,5 +83,10 @@ task :skeleton do
   rescue => e
     warn 'The skeletons in your closet are unhappy'
     puts e.message
+  end
+
+  if File.exists? 'test/spec'
+    puts "found spec tests in test/spec"
+    puts "these wont run with this rspec file you should move them to spec/"
   end
 end
